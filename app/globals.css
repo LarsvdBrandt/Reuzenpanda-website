@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── Tailwind v4 theme tokens ─────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-primary:       #a7d094;
+  --color-primary-light: #c4e3b5;
+  --color-primary-dark:  #7bb868;
+  --color-primary-deep:  #5ca044;
+
+  /* Font stack */
+  --font-sans: var(--font-poppins), "Poppins", sans-serif;
+  --font-poppins: var(--font-poppins), "Poppins", sans-serif;
+
+  /* Animations */
+  --animate-fade-up:  fadeUp 0.7s ease-out both;
+  --animate-fade-in:  fadeIn 0.4s ease-out both;
+  --animate-marquee:          marquee 35s linear infinite;
+  --animate-marquee-reverse:  marquee-reverse 40s linear infinite;
+  --animate-float:    float 6s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Keyframes ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes pulseRing {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+@keyframes centerPulse {
+  0%, 100% { box-shadow: 0 0 0 6px rgba(167,208,148,0.15), 0 8px 32px rgba(0,0,0,0.08); }
+  50%       { box-shadow: 0 0 0 12px rgba(167,208,148,0.25), 0 8px 32px rgba(0,0,0,0.08); }
+}
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%            { transform: translateY(-5px); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+button, select, [role="button"] { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #0a0a0a;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
+
+::selection {
+  background: #a7d094;
+  color: #0a0a0a;
+}
+
+/* ─── Utility helpers ───────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #a7d094, #5ca044);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* animation delay helpers */
+.delay-100 { animation-delay: 0.10s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+
+/* chat bubbles */
+.chat-bubble-in  { animation: slideInLeft  0.25s ease-out; }
+.chat-bubble-out { animation: slideInRight 0.25s ease-out; }
+
+.typing-dot { animation: typingBounce 1.4s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }

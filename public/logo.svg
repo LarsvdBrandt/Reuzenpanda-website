@@ -1,0 +1,30 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left ear (black) -->
+  <circle cx="13" cy="11" r="7" fill="#0a0a0a"/>
+  <!-- Right ear (black) -->
+  <circle cx="35" cy="11" r="7" fill="#0a0a0a"/>
+
+  <!-- Face base - left half black, right half green -->
+  <circle cx="24" cy="26" r="18" fill="#0a0a0a"/>
+  <path d="M24 8 A18 18 0 0 1 42 26 A18 18 0 0 1 24 44 Z" fill="#a7d094"/>
+
+  <!-- Left eye patch -->
+  <ellipse cx="17" cy="24" rx="5.5" ry="6" fill="white"/>
+  <!-- Right eye patch -->
+  <ellipse cx="31" cy="24" rx="5.5" ry="6" fill="white"/>
+
+  <!-- Left eye -->
+  <circle cx="17" cy="25" r="2.8" fill="#0a0a0a"/>
+  <!-- Right eye -->
+  <circle cx="31" cy="25" r="2.8" fill="#0a0a0a"/>
+
+  <!-- Eye shine left -->
+  <circle cx="18" cy="23.8" r="0.9" fill="white"/>
+  <!-- Eye shine right -->
+  <circle cx="32" cy="23.8" r="0.9" fill="white"/>
+
+  <!-- Nose -->
+  <ellipse cx="24" cy="31" rx="3" ry="2" fill="#0a0a0a"/>
+  <!-- Nose highlight -->
+  <ellipse cx="23" cy="30.2" rx="1" ry="0.7" fill="white" opacity="0.5"/>
+</svg>
