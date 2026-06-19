@@ -28,7 +28,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="nl" className={`h-full antialiased ${poppins.variable}`}>
+    <html lang="nl" className={`h-full antialiased overflow-x-hidden ${poppins.variable}`}>
       <head>
         <Script id="meta-pixel" strategy="afterInteractive">
           {`!function(f,b,e,v,n,t,s)
