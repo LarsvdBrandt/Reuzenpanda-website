@@ -640,7 +640,7 @@ function QuizSection() {
           </div>
 
           {/* Right — quiz card */}
-          <div className="bg-gray-50 rounded-[32px] border border-gray-100 p-8 shadow-sm">
+          <div className="bg-gray-50 rounded-[32px] border border-gray-100 p-5 sm:p-8 shadow-sm">
             <QuizFunnel />
           </div>
         </div>

@@ -610,7 +610,7 @@ function QuizSection() {
             </div>
           </div>
 
-          <div id="quiz-form" className="bg-gray-50 rounded-[32px] border border-gray-200 p-8 shadow-sm">
+          <div id="quiz-form" className="bg-gray-50 rounded-[32px] border border-gray-200 p-5 sm:p-8 shadow-sm">
             <QuizFunnel />
           </div>
         </div>

@@ -48,7 +48,7 @@ fbq('track', 'PageView');`}
           />
         </noscript>
       </head>
-      <body className="min-h-full flex flex-col font-poppins">
+      <body className="min-h-full flex flex-col font-poppins overflow-x-hidden">
         <CursorGlow />
         {children}
       </body>
