@@ -409,6 +409,7 @@ function QuizFunnel() {
 
   const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!contact.name.trim() || !contact.email.trim()) return;
     setLoading(true);
     const antwoorden: Record<string, string> = {};
     quizSteps.forEach((s, i) => {
