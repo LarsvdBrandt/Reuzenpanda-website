@@ -57,13 +57,12 @@ function Hero() {
         {/* Video */}
         <div id="video" className="w-full mt-2">
           <div className="relative rounded-[28px] overflow-hidden shadow-2xl shadow-black/10 border border-gray-200 bg-gray-900 aspect-video">
-            <video
-              src="/VSL_Reuzenpanda.mp4"
-              controls
-              playsInline
-              preload="metadata"
-              poster="/vsl-thumbnail.jpg"
-              className="absolute inset-0 w-full h-full object-cover"
+            <iframe
+              src="https://www.youtube.com/embed/nZlxviJOonA?rel=0"
+              title="Reuzenpanda VSL"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
             />
           </div>
         </div>
