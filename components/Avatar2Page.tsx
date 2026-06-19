@@ -42,7 +42,7 @@ function Hero() {
 
       <div className="relative max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
         <span className="inline-block px-3.5 py-1.5 rounded-full bg-primary/10 text-[12px] font-semibold text-primary-deep uppercase tracking-wide">
-          Voor ZZP&apos;ers met een schil van zzp&apos;ers
+          Voor ondernemers met een uitvoerend team
         </span>
 
         <h1 className="text-5xl md:text-6xl lg:text-[68px] font-bold text-gray-900 leading-[1.06] tracking-tight">
