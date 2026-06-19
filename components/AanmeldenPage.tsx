@@ -15,7 +15,7 @@ function Header() {
         <Image src="/logo.png" alt="Reuzenpanda" width={161} height={51} className="h-7 w-auto" />
       </Link>
       <a
-        href="#quiz-form"
+        href="#form"
         className="px-5 py-2.5 rounded-full bg-gray-900 text-white text-[14px] font-semibold hover:bg-gray-700 transition-colors"
       >
         Aanmelden
@@ -79,7 +79,7 @@ function Hero() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 mt-2">
-          <a href="#quiz-form" className="px-8 py-4 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-[16px] transition-colors shadow-lg shadow-primary/25">
+          <a href="#form" className="px-8 py-4 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-[16px] transition-colors shadow-lg shadow-primary/25">
             Bereken wat dit jou oplevert →
           </a>
         </div>
@@ -640,7 +640,7 @@ function QuizSection() {
           </div>
 
           {/* Right — quiz card */}
-          <div className="bg-gray-50 rounded-[32px] border border-gray-100 p-5 sm:p-8 shadow-sm">
+          <div id="form" className="scroll-mt-24 bg-gray-50 rounded-[32px] border border-gray-100 p-5 sm:p-8 shadow-sm">
             <QuizFunnel />
           </div>
         </div>
@@ -664,7 +664,7 @@ function FooterCta() {
           </p>
         </div>
         <a
-          href="#quiz-form"
+          href="#form"
           className="px-8 py-4 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-[16px] transition-colors shadow-lg shadow-primary/25"
         >
           Start gratis analyse →
