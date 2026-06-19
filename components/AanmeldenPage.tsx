@@ -457,10 +457,10 @@ function QuizFunnel() {
   const submitContact = (e: React.FormEvent) => {
     e.preventDefault();
     const antwoorden: Record<string, string> = {};
-    quizSteps.forEach((s) => {
+    quizSteps.forEach((s, i) => {
       if (answers[s.id]) {
         const option = s.options.find((o) => o.value === answers[s.id]);
-        antwoorden[s.question] = option?.label ?? answers[s.id];
+        antwoorden[`vraag_${i + 1}`] = `${s.question} → ${option?.label ?? answers[s.id]}`;
       }
     });
     fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
