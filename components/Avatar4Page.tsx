@@ -327,9 +327,9 @@ const quizSteps = [
     id: "revenue",
     question: "Wat is je huidige maandomzet?",
     options: [
-      { label: "€250.000 – €500.000", value: "250-500k" },
-      { label: "€500.000 – €1.000.000", value: "500k-1m" },
-      { label: "Meer dan €1.000.000", value: "1mplus" },
+      { label: "Minder dan €100.000", value: "<100k" },
+      { label: "€200.000 – €500.000", value: "200-500k" },
+      { label: "Meer dan €500.000", value: "500kplus" },
     ],
   },
   {
