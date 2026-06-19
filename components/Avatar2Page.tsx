@@ -419,7 +419,6 @@ function QuizFunnel() {
     });
     await fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         voornaam: contact.name,
         email: contact.email,
