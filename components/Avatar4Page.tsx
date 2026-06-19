@@ -363,9 +363,9 @@ const quizSteps = [
     id: "timeline",
     question: "Op welke termijn wil je dit gerealiseerd hebben?",
     options: [
-      { label: "Zo snel mogelijk (< 6 maanden)", value: "asap" },
-      { label: "Binnen 1 jaar", value: "1year" },
-      { label: "2 tot 3 jaar", value: "2-3year" },
+      { label: "Zo snel mogelijk (< 2 maanden)", value: "asap" },
+      { label: "Binnen 6 maanden", value: "6months" },
+      { label: "6 tot 18 maanden", value: "6-18months" },
     ],
   },
 ];
