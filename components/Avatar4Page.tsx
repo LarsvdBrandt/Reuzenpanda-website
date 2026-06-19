@@ -318,9 +318,9 @@ const quizSteps = [
     id: "team_size",
     question: "Hoe groot is jouw organisatie?",
     options: [
+      { label: "Minder dan 20 fte", value: "<20" },
       { label: "20 tot 50 fte", value: "20-50" },
-      { label: "50 tot 100 fte", value: "50-100" },
-      { label: "Meer dan 100 fte", value: "100plus" },
+      { label: "Meer dan 50 fte", value: "50plus" },
     ],
   },
   {
