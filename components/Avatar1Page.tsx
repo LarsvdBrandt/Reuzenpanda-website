@@ -216,7 +216,7 @@ const reviews = [
   { initial: "K", name: "Kenan Evran", company: "Ondernemer", stars: 5, quote: "We zijn erg blij met Reuzenpanda! Klanten vinden het makkelijker om een offerte aan te vragen en wij hoeven er bijna niets voor te doen." },
   { initial: "T", name: "Tim Groot", company: "CEO", stars: 5, quote: "Door de grote stijging in leads hebben we als een gek onze systemen beter moeten inrichten. Een luxeprobleem dat je wilt hebben." },
   { initial: "R", name: "Roel de Klein", company: "Eigenaar", stars: 5, quote: "Ik ben zeer tevreden over hoe de jongens van Reuzenpanda te werk gaan. Ze werken snel en luisteren goed naar je behoeftes." },
-  { initial: "L", name: "Lars van den Brandt", company: "Directeur", stars: 5, quote: "Makkelijk te leren en te begrijpen. Het heeft gezorgd voor meer conversie — aanrader voor iedere eigenaar die wil groeien." },
+  { initial: "M", name: "Mark", company: "MB Veranda", stars: 5, quote: "Al meer dan 4 jaar klant. We halen 2x zoveel aanvragen uit hetzelfde marketingbudget. Alles werkt automatisch — van offerte tot ondertekening." },
 ];
 
 function Reviews() {
