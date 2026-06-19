@@ -431,28 +431,6 @@ function QuizFunnel() {
     router.push("/bedankt");
   };
 
-  if (submitted) {
-    return (
-      <div className="flex flex-col items-center gap-6 text-center py-8">
-        <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-[32px]">🎉</div>
-        <div>
-          <h3 className="text-[24px] font-bold text-gray-900">We nemen contact op!</h3>
-          <p className="text-[15px] text-gray-500 mt-2 max-w-sm">
-            {contact.name ? `Hey ${contact.name.split(" ")[0]}, we` : "We"} kijken naar jouw antwoorden en plannen een gratis gesprek in.
-          </p>
-        </div>
-        <div className="bg-gray-50 rounded-2xl px-6 py-4 text-left flex flex-col gap-2 w-full max-w-sm">
-          <p className="text-[12px] font-semibold text-gray-400 uppercase tracking-wide">Wat je kunt verwachten</p>
-          {["Reactie binnen 24 uur", "Gratis strategiegesprek van 30 min", "Concreet plan voor jouw situatie"].map(item => (
-            <div key={item} className="flex items-center gap-2 text-[14px] text-gray-700">
-              <Check size={14} className="text-primary-deep shrink-0" />{item}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
