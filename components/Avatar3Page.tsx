@@ -336,7 +336,7 @@ const quizSteps = [
     id: "biggest_pain",
     question: "Waar verlies je de meeste omzet?",
     options: [
-      { label: "Silo's tussen marketing & sales", value: "silos" },
+      { label: "Slechte communicatie tussen marketing en sales", value: "silos" },
       { label: "Churn door trage opvolging", value: "churn" },
       { label: "Hoge overhead, te weinig marge", value: "overhead" },
     ],
