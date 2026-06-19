@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, ChevronDown, ArrowRight } from "lucide-react";
@@ -391,6 +392,7 @@ const quizSteps = [
 ];
 
 function QuizFunnel() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
@@ -425,7 +427,7 @@ function QuizFunnel() {
         ...antwoorden,
       }),
     }).catch(() => {});
-    setSubmitted(true);
+    router.push("/bedankt");
   };
 
   if (submitted) {
