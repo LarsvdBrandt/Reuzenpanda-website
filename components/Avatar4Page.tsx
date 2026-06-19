@@ -375,7 +375,7 @@ function QuizFunnel() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [contact, setContact] = useState({ name: "", email: "", phone: "", dialCode: "+31" });
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const total = quizSteps.length + 1;
   const isContactStep = step === quizSteps.length;
@@ -386,8 +386,9 @@ function QuizFunnel() {
     setTimeout(() => setStep((s) => s + 1), 200);
   };
 
-  const submitContact = (e: React.FormEvent) => {
+  const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const antwoorden: Record<string, string> = {};
     quizSteps.forEach((s, i) => {
       if (answers[s.id]) {
@@ -395,10 +396,9 @@ function QuizFunnel() {
         antwoorden[`vraag_${i + 1}`] = `${s.question} → ${option?.label ?? answers[s.id]}`;
       }
     });
-    fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
+    await fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      keepalive: true,
       body: JSON.stringify({
         voornaam: contact.name,
         email: contact.email,
@@ -528,10 +528,11 @@ function QuizFunnel() {
           </div>
           <button
             type="submit"
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
           >
-            Stuur mijn gratis moderniseringsplan →
-            <ArrowRight size={16} />
+            {loading ? "Versturen..." : "Stuur mijn gratis moderniseringsplan →"}
+            {!loading && <ArrowRight size={16} />}
           </button>
           <p className="text-[12px] text-gray-400 text-center">
             Vertrouwelijk behandeld. Geen spam. Alleen een strategisch gesprek op directieniveau.
