@@ -463,17 +463,19 @@ function QuizFunnel() {
         antwoorden[`vraag_${i + 1}`] = `${s.question} → ${option?.label ?? answers[s.id]}`;
       }
     });
-    fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        voornaam: contact.name,
-        email: contact.email,
-        telefoon: `${contact.dialCode} ${contact.phone}`,
-        source: "aanmelden",
-        ...antwoorden,
-      }),
-    }).catch(() => {});
+    const payload = JSON.stringify({
+      voornaam: contact.name,
+      email: contact.email,
+      telefoon: `${contact.dialCode} ${contact.phone}`,
+      source: "aanmelden",
+      ...antwoorden,
+    });
+    const url = "https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/";
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url, new Blob([payload], { type: "application/json" }));
+    } else {
+      fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(() => {});
+    }
     router.push("/bedankt");
   };
 
