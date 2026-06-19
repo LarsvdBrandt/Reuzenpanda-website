@@ -369,7 +369,7 @@ function QuizFunnel() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [contact, setContact] = useState({ name: "", email: "", phone: "" });
+  const [contact, setContact] = useState({ name: "", email: "", phone: "", dialCode: "+31" });
   const [submitted, setSubmitted] = useState(false);
 
   const total = quizSteps.length + 1; // +1 for contact step
@@ -396,7 +396,7 @@ function QuizFunnel() {
       body: JSON.stringify({
         voornaam: contact.name,
         email: contact.email,
-        telefoon: contact.phone,
+        telefoon: `${contact.dialCode} ${contact.phone}`,
         source: "avatar-1",
         ...antwoorden,
       }),
@@ -484,7 +484,7 @@ function QuizFunnel() {
           <div className="flex flex-col gap-3">
             <input
               type="text"
-              placeholder="Jouw naam"
+              placeholder="Voornaam"
               required
               value={contact.name}
               onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
@@ -492,19 +492,34 @@ function QuizFunnel() {
             />
             <input
               type="email"
-              placeholder="E-mailadres"
+              placeholder="Zakelijke e-mail"
               required
               value={contact.email}
               onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
               className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
             />
-            <input
-              type="tel"
-              placeholder="Telefoonnummer"
-              value={contact.phone}
-              onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
-              className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
-            />
+            <div className="flex rounded-2xl border border-gray-200 overflow-hidden focus-within:border-primary/50 transition-colors">
+              <select
+                value={contact.dialCode}
+                onChange={(e) => setContact((p) => ({ ...p, dialCode: e.target.value }))}
+                className="px-3 py-3.5 bg-gray-50 border-r border-gray-200 text-[15px] text-gray-700 outline-none shrink-0"
+              >
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+32">🇧🇪 +32</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <input
+                type="tel"
+                placeholder="Telefoonnummer"
+                value={contact.phone}
+                onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
+                className="flex-1 px-4 py-3.5 text-[15px] text-gray-800 placeholder-gray-400 outline-none bg-white"
+              />
+            </div>
           </div>
           <button
             type="submit"
