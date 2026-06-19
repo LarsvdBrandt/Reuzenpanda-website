@@ -381,6 +381,23 @@ function QuizFunnel() {
 
   const submitContact = (e: React.FormEvent) => {
     e.preventDefault();
+    const antwoorden: Record<string, string> = {};
+    quizSteps.forEach((s) => {
+      if (answers[s.id]) {
+        const option = s.options.find((o) => o.value === answers[s.id]);
+        antwoorden[s.question] = option?.label ?? answers[s.id];
+      }
+    });
+    fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
+      method: "POST",
+      body: JSON.stringify({
+        voornaam: contact.name,
+        email: contact.email,
+        telefoon: contact.phone,
+        source: "avatar-1",
+        antwoorden,
+      }),
+    }).catch(() => {});
     setSubmitted(true);
   };
 
