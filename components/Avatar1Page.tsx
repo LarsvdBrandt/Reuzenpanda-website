@@ -380,7 +380,7 @@ function QuizFunnel() {
         disabled={loading}
         className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
       >
-        {loading ? "Versturen..." : "Stuur mijn gratis plan →"}
+        {loading ? "Versturen..." : "Meld me aan →"}
         {!loading && <ArrowRight size={16} />}
       </button>
       <p className="text-[12px] text-gray-400 text-center">
