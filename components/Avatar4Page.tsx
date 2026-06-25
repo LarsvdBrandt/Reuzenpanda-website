@@ -313,90 +313,15 @@ function FAQ() {
 
 // ─── Quiz funnel ──────────────────────────────────────────────────────────────
 
-const quizSteps = [
-  {
-    id: "team_size",
-    question: "Hoe groot is jouw organisatie?",
-    options: [
-      { label: "Minder dan 20 fte", value: "<20" },
-      { label: "20 tot 50 fte", value: "20-50" },
-      { label: "Meer dan 50 fte", value: "50plus" },
-    ],
-  },
-  {
-    id: "revenue",
-    question: "Wat is je huidige maandomzet?",
-    options: [
-      { label: "Minder dan €100.000", value: "<100k" },
-      { label: "€200.000 – €500.000", value: "200-500k" },
-      { label: "Meer dan €500.000", value: "500kplus" },
-    ],
-  },
-  {
-    id: "systems",
-    question: "Welke systemen gebruik je nu?",
-    options: [
-      { label: "ERP + Office 365", value: "erp_office" },
-      { label: "Maatwerksoftware (legacy)", value: "legacy_custom" },
-      { label: "Mix van losse systemen", value: "mixed" },
-    ],
-  },
-  {
-    id: "biggest_pain",
-    question: "Wat is jouw grootste knelpunt?",
-    options: [
-      { label: "Geen realtime inzicht", value: "no_insight" },
-      { label: "Afhankelijkheid van key-employees", value: "key_people" },
-      { label: "Hoge overhead, dalende marge", value: "overhead" },
-    ],
-  },
-  {
-    id: "goal",
-    question: "Wat is jouw einddoel?",
-    options: [
-      { label: "Bedrijf verkoopklaar maken", value: "exit" },
-      { label: "Passief aansturen vanuit afstand", value: "passive" },
-      { label: "Marge en efficiency verbeteren", value: "margin" },
-    ],
-  },
-  {
-    id: "timeline",
-    question: "Op welke termijn wil je dit gerealiseerd hebben?",
-    options: [
-      { label: "Zo snel mogelijk (< 2 maanden)", value: "asap" },
-      { label: "Binnen 6 maanden", value: "6months" },
-      { label: "6 tot 18 maanden", value: "6-18months" },
-    ],
-  },
-];
-
 function QuizFunnel() {
   const router = useRouter();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [contact, setContact] = useState({ name: "", email: "", phone: "", dialCode: "+31" });
   const [loading, setLoading] = useState(false);
-
-  const total = quizSteps.length + 1;
-  const isContactStep = step === quizSteps.length;
-  const current = quizSteps[step];
-
-  const select = (val: string) => {
-    setAnswers((prev) => ({ ...prev, [current.id]: val }));
-    setTimeout(() => setStep((s) => s + 1), 200);
-  };
 
   const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contact.name.trim() || !contact.email.trim()) return;
     setLoading(true);
-    const antwoorden: Record<string, string> = {};
-    quizSteps.forEach((s, i) => {
-      if (answers[s.id]) {
-        const option = s.options.find((o) => o.value === answers[s.id]);
-        antwoorden[`vraag_${i + 1}`] = `${s.question} → ${option?.label ?? answers[s.id]}`;
-      }
-    });
     await fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
       method: "POST",
       body: JSON.stringify({
@@ -404,123 +329,69 @@ function QuizFunnel() {
         email: contact.email,
         telefoon: `${contact.dialCode} ${contact.phone}`,
         source: "avatar-4",
-        ...antwoorden,
       }),
     }).catch(() => {});
     router.push("/bedankt");
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <p className="text-[12px] font-semibold text-gray-400 uppercase tracking-wide">
-            Stap {step + 1} van {total}
-          </p>
-          <p className="text-[12px] text-gray-400">{Math.round(((step + 1) / total) * 100)}%</p>
-        </div>
-        <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-500"
-            style={{ width: `${((step + 1) / total) * 100}%` }}
+    <form onSubmit={submitContact} className="flex flex-col gap-5">
+      <div>
+        <h3 className="text-[20px] font-bold text-gray-900">Waar mogen we je bereiken?</h3>
+        <p className="text-[14px] text-gray-400 mt-1">We plannen een gratis gesprek in op basis van jouw situatie.</p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <input
+          type="text"
+          placeholder="Voornaam"
+          required
+          value={contact.name}
+          onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
+          className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
+        />
+        <input
+          type="email"
+          placeholder="E-mailadres"
+          required
+          value={contact.email}
+          onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
+          className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
+        />
+        <div className="flex rounded-2xl border border-gray-200 overflow-hidden focus-within:border-primary/50 transition-colors">
+          <select
+            value={contact.dialCode}
+            onChange={(e) => setContact((p) => ({ ...p, dialCode: e.target.value }))}
+            className="px-3 py-3.5 bg-gray-50 border-r border-gray-200 text-[15px] text-gray-700 outline-none shrink-0"
+          >
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+          </select>
+          <input
+            type="tel"
+            placeholder="Telefoonnummer"
+            value={contact.phone}
+            onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
+            className="flex-1 px-4 py-3.5 text-[15px] text-gray-800 placeholder-gray-400 outline-none bg-white"
           />
         </div>
       </div>
-
-      {!isContactStep ? (
-        <>
-          <h3 className="text-[20px] font-bold text-gray-900">{current.question}</h3>
-          <div className="flex flex-col gap-2.5">
-            {current.options.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => select(opt.value)}
-                className={`flex items-center justify-between px-5 py-4 rounded-2xl border-2 text-left transition-all ${
-                  answers[current.id] === opt.value
-                    ? "border-primary bg-primary/10"
-                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
-                }`}
-              >
-                <span className={`text-[15px] font-semibold ${answers[current.id] === opt.value ? "text-primary-deep" : "text-gray-800"}`}>
-                  {opt.label}
-                </span>
-                {answers[current.id] === opt.value && (
-                  <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-white" />
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          {step > 0 && (
-            <button onClick={() => setStep((s) => s - 1)} className="text-[13px] text-gray-400 hover:text-gray-600 transition-colors text-center">
-              ← Vorige stap
-            </button>
-          )}
-        </>
-      ) : (
-        <form onSubmit={submitContact} className="flex flex-col gap-5">
-          <div>
-            <h3 className="text-[20px] font-bold text-gray-900">Bijna klaar — waar mogen we je bereiken?</h3>
-            <p className="text-[14px] text-gray-400 mt-1">We sturen je een op maat gemaakt moderniseringsplan op basis van jouw antwoorden.</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <input
-              type="text"
-              placeholder="Voornaam"
-              required
-              value={contact.name}
-              onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
-              className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
-            />
-            <input
-              type="email"
-              placeholder="Zakelijke e-mail"
-              required
-              value={contact.email}
-              onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
-              className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
-            />
-            <div className="flex rounded-2xl border border-gray-200 overflow-hidden focus-within:border-primary/50 transition-colors">
-              <select
-                value={contact.dialCode}
-                onChange={(e) => setContact((p) => ({ ...p, dialCode: e.target.value }))}
-                className="px-3 py-3.5 bg-gray-50 border-r border-gray-200 text-[15px] text-gray-700 outline-none shrink-0"
-              >
-                <option value="+31">🇳🇱 +31</option>
-                <option value="+32">🇧🇪 +32</option>
-                <option value="+49">🇩🇪 +49</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+33">🇫🇷 +33</option>
-                <option value="+34">🇪🇸 +34</option>
-                <option value="+1">🇺🇸 +1</option>
-              </select>
-              <input
-                type="tel"
-                placeholder="Telefoonnummer"
-                value={contact.phone}
-                onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
-                className="flex-1 px-4 py-3.5 text-[15px] text-gray-800 placeholder-gray-400 outline-none bg-white"
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
-          >
-            {loading ? "Versturen..." : "Stuur mijn gratis moderniseringsplan →"}
-            {!loading && <ArrowRight size={16} />}
-          </button>
-          <p className="text-[12px] text-gray-400 text-center">
-            Vertrouwelijk behandeld. Geen spam. Alleen een strategisch gesprek op directieniveau.
-          </p>
-          <button type="button" onClick={() => setStep((s) => s - 1)} className="text-[13px] text-gray-400 hover:text-gray-600 transition-colors text-center">
-            ← Vorige stap
-          </button>
-        </form>
-      )}
-    </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
+      >
+        {loading ? "Versturen..." : "Stuur mijn gratis moderniseringsplan →"}
+        {!loading && <ArrowRight size={16} />}
+      </button>
+      <p className="text-[12px] text-gray-400 text-center">
+        Vertrouwelijk behandeld. Geen spam. Alleen een strategisch gesprek op directieniveau.
+      </p>
+    </form>
   );
 }
 
@@ -538,7 +409,7 @@ function QuizSection() {
               <span className="text-gradient">wat jouw operatie kost aan gemiste waarde</span>
             </h2>
             <p className="text-[16px] text-gray-400 leading-relaxed">
-              Beantwoord 6 vragen. We sturen je een concreet moderniseringsplan inclusief een ROI-berekening voor jouw specifieke situatie.
+              Vul je gegevens in. We nemen persoonlijk contact op en bespreken wat Reuzenpanda voor jouw bedrijf kan doen — gratis, geen verplichtingen.
             </p>
             <ul className="flex flex-col gap-3">
               {[

@@ -376,96 +376,15 @@ function FAQ() {
 
 // ─── Quiz funnel ──────────────────────────────────────────────────────────────
 
-const quizSteps = [
-  {
-    id: "team_size",
-    question: "Hoe groot is jouw bedrijf?",
-    options: [
-      { label: "Solo of met 1-2 mensen", value: "solo" },
-      { label: "3-10 medewerkers / zzp'ers", value: "3-10" },
-      { label: "10-25 medewerkers", value: "10-25" },
-      { label: "25+ medewerkers", value: "25plus" },
-    ],
-  },
-  {
-    id: "biggest_pain",
-    question: "Wat kost jou op dit moment de meeste tijd?",
-    options: [
-      { label: "Leads opvolgen en bellen", value: "leads" },
-      { label: "Offertes en administratie", value: "admin" },
-      { label: "Coördinatie tussen mensen/processen", value: "coordination" },
-      { label: "Alles — ik doe teveel zelf", value: "everything" },
-    ],
-  },
-  {
-    id: "revenue",
-    question: "Wat is je huidige maandomzet?",
-    options: [
-      { label: "Minder dan €10.000", value: "lt10k" },
-      { label: "€10.000 – €50.000", value: "10-50k" },
-      { label: "€50.000 – €150.000", value: "50-150k" },
-      { label: "Meer dan €150.000", value: "gt150k" },
-    ],
-  },
-  {
-    id: "automate",
-    question: "Wat wil je het liefst automatiseren?",
-    options: [
-      { label: "Leadopvolging & sales", value: "sales" },
-      { label: "Offertes & documenten", value: "quotes" },
-      { label: "Interne processen & communicatie", value: "internal" },
-      { label: "Alles van A tot Z", value: "everything" },
-    ],
-  },
-  {
-    id: "ai_experience",
-    question: "Hoe ver ben je met AI in je bedrijf?",
-    options: [
-      { label: "Nog niet mee begonnen", value: "not_started" },
-      { label: "Ik gebruik wat losse tools", value: "some_tools" },
-      { label: "Al bezig, maar niet structureel", value: "partial" },
-      { label: "Serieus bezig, wil professioneler", value: "serious" },
-    ],
-  },
-  {
-    id: "goal",
-    question: "Wat is jouw belangrijkste doel voor de komende 12 maanden?",
-    options: [
-      { label: "Meer omzet zonder meer uren", value: "more_revenue" },
-      { label: "Meer vrijheid en rust", value: "more_freedom" },
-      { label: "Schalen zonder chaos", value: "scale" },
-      { label: "Mijn bedrijf draait zonder mij", value: "independent" },
-    ],
-  },
-];
-
 function QuizFunnel() {
   const router = useRouter();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [contact, setContact] = useState({ name: "", email: "", phone: "", dialCode: "+31" });
   const [loading, setLoading] = useState(false);
-
-  const total = quizSteps.length + 1;
-  const isContactStep = step === quizSteps.length;
-  const current = quizSteps[step];
-
-  const select = (val: string) => {
-    setAnswers((prev) => ({ ...prev, [current.id]: val }));
-    setTimeout(() => setStep((s) => s + 1), 200);
-  };
 
   const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contact.name.trim() || !contact.email.trim()) return;
     setLoading(true);
-    const antwoorden: Record<string, string> = {};
-    quizSteps.forEach((s, i) => {
-      if (answers[s.id]) {
-        const option = s.options.find((o) => o.value === answers[s.id]);
-        antwoorden[`vraag_${i + 1}`] = `${s.question} → ${option?.label ?? answers[s.id]}`;
-      }
-    });
     await fetch("https://hooks.zapier.com/hooks/catch/14955932/43jrnv1/", {
       method: "POST",
       body: JSON.stringify({
@@ -473,124 +392,69 @@ function QuizFunnel() {
         email: contact.email,
         telefoon: `${contact.dialCode} ${contact.phone}`,
         source: "aanmelden",
-        ...antwoorden,
       }),
     }).catch(() => {});
     router.push("/bedankt");
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Progress */}
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <p className="text-[12px] font-semibold text-gray-400 uppercase tracking-wide">
-            Stap {step + 1} van {total}
-          </p>
-          <p className="text-[12px] text-gray-400">{Math.round(((step + 1) / total) * 100)}%</p>
-        </div>
-        <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-500"
-            style={{ width: `${((step + 1) / total) * 100}%` }}
+    <form onSubmit={submitContact} className="flex flex-col gap-5">
+      <div>
+        <h3 className="text-[20px] font-bold text-gray-900">Waar mogen we je bereiken?</h3>
+        <p className="text-[14px] text-gray-400 mt-1">We plannen een gratis gesprek in op basis van jouw situatie.</p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <input
+          type="text"
+          placeholder="Voornaam"
+          required
+          value={contact.name}
+          onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
+          className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
+        />
+        <input
+          type="email"
+          placeholder="E-mailadres"
+          required
+          value={contact.email}
+          onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
+          className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
+        />
+        <div className="flex rounded-2xl border border-gray-200 overflow-hidden focus-within:border-primary/50 transition-colors">
+          <select
+            value={contact.dialCode}
+            onChange={(e) => setContact((p) => ({ ...p, dialCode: e.target.value }))}
+            className="px-3 py-3.5 bg-gray-50 border-r border-gray-200 text-[15px] text-gray-700 outline-none shrink-0"
+          >
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+          </select>
+          <input
+            type="tel"
+            placeholder="Telefoonnummer"
+            value={contact.phone}
+            onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
+            className="flex-1 px-4 py-3.5 text-[15px] text-gray-800 placeholder-gray-400 outline-none bg-white"
           />
         </div>
       </div>
-
-      {!isContactStep ? (
-        <>
-          <h3 className="text-[20px] font-bold text-gray-900">{current.question}</h3>
-          <div className="flex flex-col gap-2.5">
-            {current.options.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => select(opt.value)}
-                className={`flex items-center justify-between px-5 py-4 rounded-2xl border-2 text-left transition-all ${
-                  answers[current.id] === opt.value
-                    ? "border-primary bg-primary/10"
-                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
-                }`}
-              >
-                <span className={`text-[15px] font-semibold ${answers[current.id] === opt.value ? "text-primary-deep" : "text-gray-800"}`}>
-                  {opt.label}
-                </span>
-                {answers[current.id] === opt.value && (
-                  <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-white" />
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          {step > 0 && (
-            <button onClick={() => setStep((s) => s - 1)} className="text-[13px] text-gray-400 hover:text-gray-600 transition-colors text-center">
-              ← Vorige stap
-            </button>
-          )}
-        </>
-      ) : (
-        <form onSubmit={submitContact} className="flex flex-col gap-5">
-          <div>
-            <h3 className="text-[20px] font-bold text-gray-900">Bijna klaar — waar mogen we je bereiken?</h3>
-            <p className="text-[14px] text-gray-400 mt-1">We sturen je een persoonlijk plan op basis van jouw antwoorden.</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <input
-              type="text"
-              placeholder="Voornaam"
-              required
-              value={contact.name}
-              onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
-              className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
-            />
-            <input
-              type="email"
-              placeholder="Zakelijke e-mail"
-              required
-              value={contact.email}
-              onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
-              className="w-full px-4 py-3.5 rounded-2xl border border-gray-200 text-[15px] text-gray-800 placeholder-gray-400 outline-none focus:border-primary/50 transition-colors"
-            />
-            <div className="flex rounded-2xl border border-gray-200 overflow-hidden focus-within:border-primary/50 transition-colors">
-              <select
-                value={contact.dialCode}
-                onChange={(e) => setContact((p) => ({ ...p, dialCode: e.target.value }))}
-                className="px-3 py-3.5 bg-gray-50 border-r border-gray-200 text-[15px] text-gray-700 outline-none shrink-0"
-              >
-                <option value="+31">🇳🇱 +31</option>
-                <option value="+32">🇧🇪 +32</option>
-                <option value="+49">🇩🇪 +49</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+33">🇫🇷 +33</option>
-                <option value="+34">🇪🇸 +34</option>
-                <option value="+1">🇺🇸 +1</option>
-              </select>
-              <input
-                type="tel"
-                placeholder="Telefoonnummer"
-                value={contact.phone}
-                onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
-                className="flex-1 px-4 py-3.5 text-[15px] text-gray-800 placeholder-gray-400 outline-none bg-white"
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
-          >
-            {loading ? "Versturen..." : "Stuur mijn gratis plan →"}
-            {!loading && <ArrowRight size={16} />}
-          </button>
-          <p className="text-[12px] text-gray-400 text-center">
-            Geen spam. Alleen een eerlijk gesprek over wat wij voor jou kunnen doen.
-          </p>
-          <button onClick={() => setStep((s) => s - 1)} type="button" className="text-[13px] text-gray-400 hover:text-gray-600 transition-colors text-center">
-            ← Vorige stap
-          </button>
-        </form>
-      )}
-    </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors disabled:opacity-60"
+      >
+        {loading ? "Versturen..." : "Stuur mijn gratis plan →"}
+        {!loading && <ArrowRight size={16} />}
+      </button>
+      <p className="text-[12px] text-gray-400 text-center">
+        Geen spam. Alleen een eerlijk gesprek over wat wij voor jou kunnen doen.
+      </p>
+    </form>
   );
 }
 
@@ -621,7 +485,7 @@ function QuizSection() {
                 </span>
               </h2>
               <p className="text-[16px] text-gray-500 leading-relaxed">
-                Beantwoord 6 vragen. Op basis van jouw antwoorden kijkt onze AI-agent direct of en hoe we jou kunnen helpen.
+                Vul je gegevens in. We nemen persoonlijk contact op en bespreken wat Reuzenpanda voor jouw bedrijf kan doen — gratis, geen verplichtingen.
               </p>
             </div>
 
