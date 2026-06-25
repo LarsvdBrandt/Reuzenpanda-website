@@ -74,7 +74,7 @@ function Hero() {
             href="#quiz-form"
             className="px-8 py-4 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-[16px] transition-colors shadow-lg shadow-primary/25"
           >
-            Bereken wat dit jou oplevert →
+            Aanmelden →
           </a>
         </div>
 
@@ -487,7 +487,7 @@ function FooterCta() {
           href="#quiz-form"
           className="px-8 py-4 rounded-full bg-gray-900 text-white font-bold text-[16px] hover:bg-gray-700 transition-colors"
         >
-          Ja, ik wil dit voor mijn bedrijf →
+          Aanmelden →
         </a>
         <p className="text-[13px] text-gray-500">Geen betaalmethode nodig · Gratis gesprek · Direct starten</p>
       </div>

@@ -80,7 +80,7 @@ function Hero() {
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 mt-2">
           <a href="#form" className="px-8 py-4 rounded-full bg-primary hover:bg-primary-dark text-white font-bold text-[16px] transition-colors shadow-lg shadow-primary/25">
-            Bereken wat dit jou oplevert →
+            Aanmelden →
           </a>
         </div>
 
